@@ -2,6 +2,7 @@
 
 #include <Cool/App/IApp.h>
 #include <Cool/App/Window.h>
+#include <Cool/OpenGL/Shader.h>
 #include <Cool/Renderer_Fullscreen/Renderer_Fullscreen.h>
 #include "ColorPalette/ColorPalette.h"
 
@@ -25,10 +26,7 @@ private:
     Cool::Window&             _window;
     Cool::Renderer_Fullscreen _renderer;
     ColorPalette              _color_palette;
-#ifdef DEBUG
-    bool _show_imgui_debug = true;
-    bool _show_imgui_demo  = false;
-#endif
+    Cool::Shader              _shader{"Cool/res/shaders/fullscreen.vert", "shaders/color_palette.frag"};
 
 private:
     // Serialization

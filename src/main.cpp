@@ -16,9 +16,7 @@ void main()
 #endif
     // Create the main window and init OpenGL
     Cool::Window& window = window_factory.create("Palette Generator", 1280, 720);
-#if !defined(DEBUG)
     glfwMaximizeWindow(window.get());
-#endif
     // App
     App              app(window);
     Cool::AppManager appManager(window, app);

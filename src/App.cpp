@@ -25,6 +25,13 @@ void App::render()
     _renderer.begin();
     {
         glClear(GL_COLOR_BUFFER_BIT);
+        _shader.bind();
+        _shader.set_uniform("aspect_ratio", Cool::RenderState::Size().aspectRatio());
+        _shader.set_uniform("a", _color_palette.a);
+        _shader.set_uniform("b", _color_palette.b);
+        _shader.set_uniform("c", _color_palette.c);
+        _shader.set_uniform("d", _color_palette.d);
+        _renderer.render();
     }
     _renderer.end();
 }
@@ -33,27 +40,12 @@ void App::ImGuiWindows()
 {
     Cool::Log::ToUser::imgui_console_window();
     if (!Cool::RenderState::IsExporting()) {
-#ifdef DEBUG
-        if (_show_imgui_debug) {
-            ImGui::Begin("Debug", &_show_imgui_debug);
-            ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
-            ImGui::SameLine();
-            bool cap_framerate = _window.isVSyncEnabled();
-            if (ImGui::Checkbox("Cap framerate", &cap_framerate)) {
-                if (cap_framerate) {
-                    _window.enableVSync();
-                }
-                else {
-                    _window.disableVSync();
-                }
-            }
-            ImGui::Checkbox("Show Demo Window", &_show_imgui_demo);
-            ImGui::End();
-        }
-        if (_show_imgui_demo) { // Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-            ImGui::ShowDemoWindow(&_show_imgui_demo);
-        }
-#endif
+        ImGui::Begin("Palette");
+        ImGui::SliderFloat3("a", glm::value_ptr(_color_palette.a), 0.f, 2.f);
+        ImGui::SliderFloat3("b", glm::value_ptr(_color_palette.b), 0.f, 2.f);
+        ImGui::SliderFloat3("c", glm::value_ptr(_color_palette.c), 0.f, 2.f);
+        ImGui::SliderFloat3("d", glm::value_ptr(_color_palette.d), 0.f, 2.f);
+        ImGui::End();
     }
 }
 
@@ -61,10 +53,6 @@ void App::ImGuiMenus()
 {
     if (ImGui::BeginMenu("Windows")) {
         Cool::Log::ToUser::imgui_toggle_console();
-#ifdef DEBUG
-        ImGui::Separator();
-        ImGui::Checkbox("Debug", &_show_imgui_debug);
-#endif
         ImGui::EndMenu();
     }
 }
