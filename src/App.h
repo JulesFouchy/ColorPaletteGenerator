@@ -3,6 +3,7 @@
 #include <Cool/App/IApp.h>
 #include <Cool/App/Window.h>
 #include <Cool/Renderer_Fullscreen/Renderer_Fullscreen.h>
+#include "ColorPalette/ColorPalette.h"
 
 class App : public Cool::IApp {
 public:
@@ -23,6 +24,7 @@ private:
 private:
     Cool::Window&             _window;
     Cool::Renderer_Fullscreen _renderer;
+    ColorPalette              _color_palette;
 #ifdef DEBUG
     bool _show_imgui_debug = true;
     bool _show_imgui_demo  = false;
@@ -34,6 +36,6 @@ private:
     template<class Archive>
     void serialize(Archive& archive)
     {
-        //archive(cereal::make_nvp("Shader Manager Manager", _shader_manager));
+        archive(cereal::make_nvp("Color Palette", _color_palette));
     }
 };
