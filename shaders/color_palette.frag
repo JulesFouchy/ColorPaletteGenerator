@@ -18,6 +18,7 @@ void main()
     float r      = length(uv);
     float mask   = smoothstep(0.001, -0.001, abs(r - 0.3) - 0.1);
     vec3  col    = a + b * cos(6.28 * (c * t + d));
-    col          = mix(vec3(0.2), col, mask);
+    col          = mix(vec3(0.04), col, mask);
+    col          = pow(col, vec3(0.4545));
     gl_FragColor = vec4(col, 1.);
 }
