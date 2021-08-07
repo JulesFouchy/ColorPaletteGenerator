@@ -45,6 +45,7 @@ void App::ImGuiWindows()
         ImGui::SliderFloat3("b", glm::value_ptr(_color_palette.b), 0.f, 2.f);
         ImGui::SliderFloat3("c", glm::value_ptr(_color_palette.c), 0.f, 2.f);
         ImGui::SliderFloat3("d", glm::value_ptr(_color_palette.d), 0.f, 2.f);
+        ImGui::InputText("yo", &_color_palette.to_string());
         ImGui::End();
     }
 }
