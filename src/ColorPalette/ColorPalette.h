@@ -14,11 +14,12 @@ struct ColorPalette {
     {
         std::string s;
         for (int i = 0; i < 3; ++i) {
+            bool no_inversion = min_val[i] <= max_val[i];
             s += "    {" +
-                 to_int_string(min_val[i]) + ", " +
-                 to_int_string(max_val[i]) + ", " +
+                 to_int_string(no_inversion ? min_val[i] : max_val[i]) + ", " +
+                 to_int_string(no_inversion ? max_val[i] : min_val[i]) + ", " +
                  to_int_string(frequency[i] * 60.f / 255.f) + ", " +
-                 to_int_string(phase[i]) + "}, // " + (i == 0 ? "RED\n" : i == 1 ? "GREEN\n" : "BLUE");
+                 to_int_string(no_inversion ? phase[i] : 1.f - phase[i]) + "}, // " + (i == 0 ? "RED\n" : i == 1 ? "GREEN\n" : "BLUE");
         }
         return s;
     }
