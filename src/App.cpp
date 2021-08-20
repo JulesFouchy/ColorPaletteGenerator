@@ -27,10 +27,10 @@ void App::render()
         glClear(GL_COLOR_BUFFER_BIT);
         _shader.bind();
         _shader.set_uniform("aspect_ratio", Cool::RenderState::Size().aspectRatio());
-        _shader.set_uniform("a", _color_palette.a);
-        _shader.set_uniform("b", _color_palette.b);
-        _shader.set_uniform("c", _color_palette.c);
-        _shader.set_uniform("d", _color_palette.d);
+        _shader.set_uniform("min_val", _color_palette.min_val);
+        _shader.set_uniform("max_val", _color_palette.max_val);
+        _shader.set_uniform("frequency", _color_palette.frequency);
+        _shader.set_uniform("phase", _color_palette.phase);
         _renderer.render();
     }
     _renderer.end();
@@ -41,11 +41,13 @@ void App::ImGuiWindows()
     Cool::Log::ToUser::imgui_console_window();
     if (!Cool::RenderState::IsExporting()) {
         ImGui::Begin("Palette");
-        ImGui::SliderFloat3("a", glm::value_ptr(_color_palette.a), 0.f, 2.f);
-        ImGui::SliderFloat3("b", glm::value_ptr(_color_palette.b), 0.f, 2.f);
-        ImGui::SliderFloat3("c", glm::value_ptr(_color_palette.c), 0.f, 2.f);
-        ImGui::SliderFloat3("d", glm::value_ptr(_color_palette.d), 0.f, 2.f);
-        ImGui::InputText("yo", &_color_palette.to_string());
+        ImGui::SliderFloat3("min_val", glm::value_ptr(_color_palette.min_val), 0.f, 1.f);
+        ImGui::SliderFloat3("max_val", glm::value_ptr(_color_palette.max_val), 0.f, 1.f);
+        ImGui::SliderFloat3("frequency", glm::value_ptr(_color_palette.frequency), 0.f, 2.f);
+        ImGui::SliderFloat3("phase", glm::value_ptr(_color_palette.phase), 0.f, 1.f);
+        if (ImGui::Button("Copy to clipboard")) {
+            glfwSetClipboardString(_window.get(), _color_palette.to_string().c_str());
+        }
         ImGui::End();
     }
 }
